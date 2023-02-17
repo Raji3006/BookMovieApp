@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #222;
+    height: 36px;
+    padding: 8px 32px 8px 16px;
+  }
+  
+  .logo {
+    animation: rotate 8s linear infinite;
+    background-color: #ff7f7f;
+    height: 35px;
+    margin-right: 16px;
+  }
+  
+  .logo-image {
+    height: 100%;
+  }
+  
+  .login-button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: auto;
+  }
+  
+ 
