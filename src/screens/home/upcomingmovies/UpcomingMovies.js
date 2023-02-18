@@ -5,9 +5,13 @@ function MovieGrid() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "here we have to use api"
-    )
+    fetch("http://localhost:8085/api/v1/movies?page=1&limit=10&title=Inception", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => setMovies(data.results));
   }, []);
