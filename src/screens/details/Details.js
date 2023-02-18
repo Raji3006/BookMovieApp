@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import './Details.css';
 import Header from '../../common/header/Header';
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import { MovieSharp } from '@material-ui/icons';
+
+
 // import Rating from '@material-ui/lab/Rating';
 
 const Details = () => {
@@ -28,17 +31,41 @@ const Details = () => {
         );
     });
 
+    //Fetch data using API
+    const [movie, setMovie] = useState({});
+
+    //const BookShow = (props) => {
+
+    const fetchData = () => {
+        return fetch("http://localhost:8085/api/v1/cities")
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => setMovie(json));
+    }
+    
+    useEffect(() => {
+        fetchData();
+    },[])
+
+    //console.log("Movie Name: " + movie, JSON.parse(movie));
+
     return(
         <div className="details">
             <Header /> 
             <Typography>
                 {/* <Link to={"/home/"} > */}
                 {backToHome}
-                {/* </Link>  */}
+                {/* </Link>  */}                
             </Typography>
+            <div>
+            </div>
             <div className="parent">
                 <div className="left">
-                    {/* <img src={movie.poster_url} alt={movie.title} /> */}
+                    {/*<img src={user.poster_url} alt={user.title} />*/}
+                    
+                    <h3>{ movie && movie.cities && movie.cities[0].name }</h3>
+                    
                 </div>
                 <div className="middle">
                     
@@ -61,6 +88,6 @@ const Details = () => {
             </div>
         </div>
     )
-}
+    }
 
 export default Details;
