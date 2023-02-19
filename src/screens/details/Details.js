@@ -23,16 +23,18 @@ const Details = () => {
     //       .then((data) => setMovie(data.results));
     //   }, []);
     
-    const ratingStar = Array.from({length: 5}, (x, i) => {
-        return (
-            <span key={i} >
-                <StarBorderIcon />
-            </span>
-        );
-    });
+    // const ratingStar = Array.from({length: 5}, (x, i) => {
+    //     return (
+    //         <span key={i} >
+    //             <StarBorderIcon color='primary'/>
+    //         </span>
+    //     );
+    // });
 
     //Fetch data using API
     const [movie, setMovie] = useState({});
+    const [rating, setRating] = useState(null);
+    
 
     //const BookShow = (props) => {
 
@@ -68,14 +70,49 @@ const Details = () => {
                     
                 </div>
                 <div className="middle">
-                    
+                    <Typography variant="heading" component="h2">
+                        Movie Title Here
+                    </Typography>
+                    <Typography style={{ fontWeight: 'bold'}}>
+                        Genre:
+                    </Typography>
+                    <Typography style={{ fontWeight: 'bold'}}>
+                        Duration:
+                    </Typography>
+                    <Typography style={{ fontWeight: 'bold'}}>
+                        Released Date:
+                    </Typography>
+                    <Typography style={{ fontWeight: 'bold'}}>
+                        Rating:
+                    </Typography><br/>
+                    <Typography style={{ fontWeight: 'bold'}}>
+                        Plot:
+                    </Typography>
+                    <div className='trailer-box' style={{ marginTop: '16px' }}>
+                    <Typography style={{ fontWeight: 'bold'}}>
+                        Trailer:
+                    </Typography>
+                    </div>
                 </div>
                 <div className="right">
                     <Typography style={{ fontWeight: 'bold' }}>
                         Rate this movie:
                     </Typography> 
                     <div >
-                        {ratingStar}
+                        {[...Array(5)].map((star, i) => {
+                            const ratingValue = i + 1;
+                            return (
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    name="rating" 
+                                    value={ratingValue} 
+                                    onClick={() => setRating(ratingValue)}
+                                    />
+                                <StarBorderIcon className="star" color={ ratingValue <= rating ? "yellow" : "black" }/>
+                            </label>
+                            );
+                        })}
                     </div>
                     <div className='artists-style'>
                         <Typography style={{ fontWeight: 'bold'}}>

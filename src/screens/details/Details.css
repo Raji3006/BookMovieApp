@@ -35,3 +35,7 @@
 .artists-style {
     margin: 16px 0 16px 0;
 }
+
+input[type="radio"] {
+    display: none;
+}
