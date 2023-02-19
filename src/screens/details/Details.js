@@ -69,7 +69,7 @@ const Details = () => {
                     <h3>{ movie && movie.cities && movie.cities[0].name }</h3>
                     
                 </div>
-                <div className="middle">
+                <div className="middle-section">
                     <Typography variant="heading" component="h2">
                         Movie Title Here
                     </Typography>
