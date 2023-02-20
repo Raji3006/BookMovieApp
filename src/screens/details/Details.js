@@ -3,11 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './Details.css';
 import Header from '../../common/header/Header';
 import StarBorderIcon from "@material-ui/icons/StarBorder";
-import { MovieSharp } from '@material-ui/icons';
 import YouTube from 'react-youtube';
-
-
-// import Rating from '@material-ui/lab/Rating';
 
 const Details = () => {
 
@@ -29,6 +25,19 @@ const Details = () => {
     useEffect(() => {
          fetchData();
     },[])
+
+    const opts = {
+        height: '390',
+        width: '640',
+        playerVars: {
+          autoplay: 1,
+        },
+      }
+
+      const onPlayerReady = (event) => {
+        // access to player in all event handlers via event.target
+        event.target.pauseVideo();
+      }
 
     return(
         <div className="details">
@@ -79,7 +88,7 @@ const Details = () => {
                         <YouTube 
                             src= {movie && movie.movies && movie.movies[0].trailer_url}
                             opts={opts} 
-                            onReady={(e) => { setPlayer(e.target) }}
+                            onReady={(e) => { onPlayerReady }}
                         />
                     </div>
                     </div>
