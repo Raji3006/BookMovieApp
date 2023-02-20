@@ -2,6 +2,7 @@
 import "./Header.css"; // Import the CSS file
 import logo from "../../assets/logo.svg"; // Import the logo image
 import Button from "@material-ui/core/Button";
+
 import LoginModal from "./LoginModal";
 import React, { useState } from "react";
 import axios from 'axios';
@@ -69,15 +70,15 @@ function Header() {
   });
   };
 
-
-
   return (
     <header className="header">
       <div className="logo">
         <img src={logo} alt="Logo" className="logo-image" />
       </div>
       <div className="login-button">
+      
       <Button variant="contained" color="default" onClick={handleModalOpen}>Login</Button>
+
       </div>
       <LoginModal
         showModal={showModal}
@@ -92,3 +93,5 @@ function Header() {
 }
 
 export default Header;
+
+// onClick={() => props.history.push()}

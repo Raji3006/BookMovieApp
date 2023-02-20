@@ -1,6 +1,22 @@
 .left{
     width: 20%;
     
+    
+}
+
+/* .back-button-style {
+    margin: 24px 8px 0px 24px;
+} */
+
+/* img {
+    width: 200px;
+    height: 250px;
+    margin: 0 16px 16px 16px;
+} */
+
+.trailer-box {
+    margin-top: 16px;
+    width:max-content;
 }
 
 .middle {
