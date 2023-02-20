@@ -3,31 +3,13 @@ import React, { useState, useEffect } from "react";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles(() => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    width: "75%",
-  },
-  gridList: {
-    width: "100%",
-    height: 350,
-  },
-  pointer: {
-    cursor: "pointer",
-  },
-}));
+import "./releasedMovies.css";
 
 function ReleasedMovies() {
   const [movies, setMovies] = useState([]);
-  const classes = useStyles();
 
   useEffect(() => {
-    fetch("http://localhost:8085/api/movies/released")
+    fetch("api/v1/movies")
       .then((response) => response.json())
       .then((data) => setMovies(data))
       .catch((error) => console.log(error));
@@ -38,12 +20,12 @@ function ReleasedMovies() {
   };
 
   return (
-    <div className={classes.root}>
-      <GridList cellHeight={350} cols={4} className={classes.gridList}>
-        {movies.map((movie) => (
+    <div className="root">
+      <GridList cellHeight={350} cols={4} className="gridList">
+        {Array.isArray(movies) && movies.map((movie) => (
           <GridListTile
             key={movie.id}
-            className={classes.pointer}
+            className="pointer"
             onClick={() => handleMovieClick(movie.id)}
           >
             <img src={movie.poster_url} alt={movie.title} />

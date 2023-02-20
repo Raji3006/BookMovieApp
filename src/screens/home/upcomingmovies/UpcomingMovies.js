@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { GridList, GridListTile, GridListTileBar } from "@material-ui/core";
+import { GridList, GridListTile, GridListTileBar,ImageList,ImageListItemBar,ImageListItem } from "@material-ui/core";
+
 
 function MovieGrid() {
   const [movies, setMovies] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:8085/api/v1/movies?page=1&limit=10&title=Inception", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setMovies(data.results));
-  }, []);
+  const fetchData = () => {
+    return fetch("http://localhost:8085/api/v1/movies")
+        .then((response) => {
+            return response.json();
+        })
+        .then((json) => setMovies(json));
+}
+console.log("movies:",movies)
+
+useEffect(() => {
+    fetchData();
+},[])
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around", overflow: "hidden", backgroundColor: "#e0e0e0" }}>
-      <GridList cellHeight={250} cols={6}>
-        {movies.map((movie) => (
-          <GridListTile key={movie.id}>
+      <ImageList rowHeight={250} cols={6}>
+        {Array.isArray(movies) && movies.map((movie) => (
+          <ImageListItem key={movie.id}>
             <img src={movie.poster_url} alt={movie.title} />
-            <GridListTileBar title={movie.title} />
-          </GridListTile>
+            <ImageListItemBar title={movie.title} />
+          </ImageListItem>
         ))}
-      </GridList>
+      </ImageList>
     </div>
   );
 }
