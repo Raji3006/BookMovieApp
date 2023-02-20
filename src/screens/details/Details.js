@@ -4,6 +4,7 @@ import './Details.css';
 import Header from '../../common/header/Header';
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { MovieSharp } from '@material-ui/icons';
+import YouTube from 'react-youtube';
 
 
 // import Rating from '@material-ui/lab/Rating';
@@ -12,34 +13,13 @@ const Details = () => {
 
     const backToHome = "< Back to Home";
     
-    
-    // const [movie, setMovie] = useState([]);
-
-    // useEffect(() => {
-    //     fetch(
-          
-    //     )
-    //       .then((response) => response.json())
-    //       .then((data) => setMovie(data.results));
-    //   }, []);
-    
-    // const ratingStar = Array.from({length: 5}, (x, i) => {
-    //     return (
-    //         <span key={i} >
-    //             <StarBorderIcon color='primary'/>
-    //         </span>
-    //     );
-    // });
-
     //Fetch data using API
     const [movie, setMovie] = useState({});
-    const [rating, setRating] = useState(null);
-    
-
-    //const BookShow = (props) => {
+    const [rating, setRating] = useState(0);
+    const [player, setPlayer] = useState(null);
 
     const fetchData = () => {
-        return fetch("http://localhost:8085/api/v1/cities")
+        return fetch("http://localhost:8085/api/v1/movies")
             .then((response) => {
                 return response.json();
             })
@@ -47,10 +27,8 @@ const Details = () => {
     }
     
     useEffect(() => {
-        fetchData();
+         fetchData();
     },[])
-
-    //console.log("Movie Name: " + movie, JSON.parse(movie));
 
     return(
         <div className="details">
@@ -60,38 +38,50 @@ const Details = () => {
                 {backToHome}
                 {/* </Link>  */}                
             </Typography>
-            <div>
-            </div>
+            
             <div className="parent">
-                <div className="left">
-                    {/*<img src={user.poster_url} alt={user.title} />*/}
-                    
-                    <h3>{ movie && movie.cities && movie.cities[0].name }</h3>
-                    
+                <div className="left">                  
+                    <Typography>
+                        <img 
+                        src= { movie && movie.movies && movie.movies[0].poster_url } 
+                        alt= { movie && movie.movies && movie.movies[0].title }
+                        style={{ width: 200, height: 250, marginLeft: 0, marginTop: 16, marginRight: 16, marginBottom: 16}} 
+                        />
+                    </Typography>
                 </div>
-                <div className="middle-section">
+                <div className="middle">
                     <Typography variant="heading" component="h2">
-                        Movie Title Here
+                    { movie && movie.movies && movie.movies[0].title }
                     </Typography>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Genre:
+                        Genre: { movie && movie.movies && movie.movies[0].genres}
                     </Typography>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Duration:
+                        Duration: { movie && movie.movies && movie.movies[0].duration }
                     </Typography>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Released Date:
+                        Released Date: { movie && movie.movies && movie.movies[0].release_date }
                     </Typography>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Rating:
+                        Rating: { movie && movie.movies && movie.movies[0].rating }
                     </Typography><br/>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Plot:
+                        Plot: ( 
+                        <a href={movie && movie.movies && movie.movies[0].wiki_url}>Wiki Link</a>
+                        ) { movie && movie.movies && movie.movies[0].storyline }
                     </Typography>
                     <div className='trailer-box' style={{ marginTop: '16px' }}>
                     <Typography style={{ fontWeight: 'bold'}}>
                         Trailer:
                     </Typography>
+                     
+                    <div className='trailer-box'>
+                        <YouTube 
+                            src= {movie && movie.movies && movie.movies[0].trailer_url}
+                            opts={opts} 
+                            onReady={(e) => { setPlayer(e.target) }}
+                        />
+                    </div>
                     </div>
                 </div>
                 <div className="right">
@@ -109,7 +99,7 @@ const Details = () => {
                                     value={ratingValue} 
                                     onClick={() => setRating(ratingValue)}
                                     />
-                                <StarBorderIcon className="star" color={ ratingValue <= rating ? "yellow" : "black" }/>
+                                <StarBorderIcon className="star" style={{color: ratingValue <= rating ? "yellow" : "black"}}/>
                             </label>
                             );
                         })}
@@ -118,6 +108,7 @@ const Details = () => {
                         <Typography style={{ fontWeight: 'bold'}}>
                             Artists:
                         </Typography>
+
                     </div>
                     
                 </div>
