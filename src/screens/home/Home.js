@@ -5,10 +5,10 @@ import "./Home.css";
 import ReleasedMovies from './releasedmovies/ReleasedMovies';
 
 
-function Home() {
+function Home(props) {
     return (
       <div>
-        <Header />
+        <Header {...props}/>
 
         <div className="upcoming-movies-heading">
             <span>Upcoming Movies</span>
