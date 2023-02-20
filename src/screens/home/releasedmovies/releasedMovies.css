@@ -1,0 +1,16 @@
+.root {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    overflow: hidden;
+    width: 75%;
+  }
+  
+  .gridList {
+    width: 100%;
+    height: 350px;
+  }
+  
+  .pointer {
+    cursor: pointer;
+  }
