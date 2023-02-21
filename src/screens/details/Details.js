@@ -8,13 +8,19 @@ import { Link } from "react-router-dom";
 
 const Details = (props) => {
 
+
     // const backToHome = "< Back to Home";
     // let history = useHistory();
+
+
+    
+
     //Fetch data using API
     const [movie, setMovie] = useState({});
     const [rating, setRating] = useState(0);
     
     const fetchData = () => {
+        return fetch("http://localhost:8085/api/v1/movies")
         return fetch("http://localhost:8085/api/v1/movies")
             .then((response) => {
                 return response.json();
@@ -90,7 +96,8 @@ const Details = (props) => {
                     </Typography>
                     <div className='trailer-box' style={{ marginTop: '16px' }}>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Trailer:
+                        Trailer: <br/>
+                        
                     </Typography>
                      
                     <div className='trailer-box'>
@@ -125,6 +132,25 @@ const Details = (props) => {
                     <div className='artists-style'>
                         <Typography style={{ fontWeight: 'bold'}}>
                             Artists:
+                            <GridList className={movie.gridList} cols={2.5}>
+                                {movie.map(tile => (
+                                <GridListTile key={tile.img}>
+                                    <img src={tile.profile_url} alt={tile.first_name + " " + tile.last_name} />
+                                    <GridListTileBar
+                                    title={tile.first_name + " " + tile.last_name}
+                                    classes={{
+                                        root: movie.titleBar,
+                                        title: movie.title,
+                                    }}
+                                    actionIcon={
+                                        <IconButton>
+                                        <StarBorderIcon className={movie.title} />
+                                        </IconButton>
+                                    }
+                                    />
+                                </GridListTile>
+                                ))}
+                            </GridList>
                         </Typography>
                         <div>
                             <GridList cols={2}>
