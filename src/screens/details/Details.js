@@ -10,7 +10,7 @@ import YouTube from 'react-youtube';
 // import Rating from '@material-ui/lab/Rating';
 
 const Details = () => {
-
+    
     const backToHome = "< Back to Home";
     
     //Fetch data using API
@@ -19,6 +19,7 @@ const Details = () => {
     const [player, setPlayer] = useState(null);
 
     const fetchData = () => {
+        return fetch("http://localhost:8085/api/v1/movies")
         return fetch("http://localhost:8085/api/v1/movies")
             .then((response) => {
                 return response.json();
@@ -72,7 +73,8 @@ const Details = () => {
                     </Typography>
                     <div className='trailer-box' style={{ marginTop: '16px' }}>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Trailer:
+                        Trailer: <br/>
+                        
                     </Typography>
                      
                     <div className='trailer-box'>
@@ -107,6 +109,25 @@ const Details = () => {
                     <div className='artists-style'>
                         <Typography style={{ fontWeight: 'bold'}}>
                             Artists:
+                            <GridList className={movie.gridList} cols={2.5}>
+                                {movie.map(tile => (
+                                <GridListTile key={tile.img}>
+                                    <img src={tile.profile_url} alt={tile.first_name + " " + tile.last_name} />
+                                    <GridListTileBar
+                                    title={tile.first_name + " " + tile.last_name}
+                                    classes={{
+                                        root: movie.titleBar,
+                                        title: movie.title,
+                                    }}
+                                    actionIcon={
+                                        <IconButton>
+                                        <StarBorderIcon className={movie.title} />
+                                        </IconButton>
+                                    }
+                                    />
+                                </GridListTile>
+                                ))}
+                            </GridList>
                         </Typography>
 
                     </div>
