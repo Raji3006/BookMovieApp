@@ -3,21 +3,22 @@ import React, { useState, useEffect } from 'react';
 import './Details.css';
 import Header from '../../common/header/Header';
 import StarBorderIcon from "@material-ui/icons/StarBorder";
-import { MovieSharp } from '@material-ui/icons';
 import YouTube from 'react-youtube';
+import { Link } from "react-router-dom";
+
+const Details = (props) => {
 
 
-// import Rating from '@material-ui/lab/Rating';
+    // const backToHome = "< Back to Home";
+    // let history = useHistory();
 
-const Details = () => {
+
     
-    const backToHome = "< Back to Home";
-    
+
     //Fetch data using API
     const [movie, setMovie] = useState({});
     const [rating, setRating] = useState(0);
-    const [player, setPlayer] = useState(null);
-
+    
     const fetchData = () => {
         return fetch("http://localhost:8085/api/v1/movies")
         return fetch("http://localhost:8085/api/v1/movies")
@@ -31,14 +32,36 @@ const Details = () => {
          fetchData();
     },[])
 
+    const opts = {
+        height: '390',
+        width: '640',
+        playerVars: {
+          autoplay: 1,
+        },
+    }
+
+    const onPlayerReady = (event) => {
+        // access to player in all event handlers via event.target
+        event.target.pauseVideo();
+    }
+    
+    let videoUrl = movie && movie.movies && movie.movies[0].trailer_url;
+    let videoId;
+    if(videoUrl) {
+        videoId = videoUrl.split("v=")[1].split("&")[0];
+    }
+
+    const d = movie && movie.movies && movie.movies[0].release_date;
+    //const releasedDate = d.toDateString();
+
     return(
         <div className="details">
             <Header /> 
-            <Typography>
-                {/* <Link to={"/home/"} > */}
-                {backToHome}
-                {/* </Link>  */}                
-            </Typography>
+            <Typography className="back">
+          {/* <Link to={"/movie/" + props.match.params.id}> */}
+            &#60; Back to Home
+          {/* </Link> */}
+        </Typography>
             
             <div className="parent">
                 <div className="left">                  
@@ -61,7 +84,7 @@ const Details = () => {
                         Duration: { movie && movie.movies && movie.movies[0].duration }
                     </Typography>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Released Date: { movie && movie.movies && movie.movies[0].release_date }
+                        Released Date: { d }
                     </Typography>
                     <Typography style={{ fontWeight: 'bold'}}>
                         Rating: { movie && movie.movies && movie.movies[0].rating }
@@ -79,9 +102,9 @@ const Details = () => {
                      
                     <div className='trailer-box'>
                         <YouTube 
-                            src= {movie && movie.movies && movie.movies[0].trailer_url}
+                            videoId={videoId}
                             opts={opts} 
-                            onReady={(e) => { setPlayer(e.target) }}
+                            onReady={(e) => { onPlayerReady }}
                         />
                     </div>
                     </div>
@@ -129,7 +152,17 @@ const Details = () => {
                                 ))}
                             </GridList>
                         </Typography>
-
+                        <div>
+                            <GridList cols={2}>
+                                {movie&& movie.movies&&movie.movies[0].artists.map((artist, i) => {
+                                    <GridListTile key={i}>
+                                        {console.log(artist)}
+                                        <img src={ artist.profile_url } alt= { artist.first_name + " " + artist.last_name } />
+                                        <GridListTileBar title={ artist.first_name + " " + artist.last_name } />
+                                    </GridListTile>
+                                })}
+                            </GridList>
+                        </div>
                     </div>
                     
                 </div>
