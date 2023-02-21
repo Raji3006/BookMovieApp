@@ -1,18 +1,14 @@
 .left{
     width: 20%;
-    
-    
 }
 
-/* .back-button-style {
-    margin: 24px 8px 0px 24px;
-} */
+.back-button-style {
+    margin: 24px 8px 24px 0px;
+}
 
-/* img {
-    width: 200px;
-    height: 250px;
-    margin: 0 16px 16px 16px;
-} */
+.back-button-style:hover {
+    cursor: pointer;
+}
 
 .trailer-box {
     margin-top: 16px;
@@ -21,13 +17,10 @@
 
 .middle {
     width: 60%;
-  
 }
 
 .right {
-    width: 20%;
-   
-    
+    width: 20%;  
 }
 
 .details {
