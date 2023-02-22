@@ -45,8 +45,9 @@ const Details = (props) => {
         videoId = videoUrl.split("v=")[1].split("&")[0];
     }
 
-    const d = movie && movie.movies && movie.movies[0].release_date;
-    //const releasedDate = d.toDateString();
+    let date = new Date(movie && movie.movies && movie.movies[0].release_date) ;
+
+    const releasedDate = date.toDateString();
 
     return(
         <div className="details">
@@ -78,7 +79,7 @@ const Details = (props) => {
                         Duration: { movie && movie.movies && movie.movies[0].duration }
                     </Typography>
                     <Typography style={{ fontWeight: 'bold'}}>
-                        Released Date: { d }
+                        Released Date: { releasedDate }
                     </Typography>
                     <Typography style={{ fontWeight: 'bold'}}>
                         Rating: { movie && movie.movies && movie.movies[0].rating }
