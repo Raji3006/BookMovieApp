@@ -6,9 +6,12 @@
   }
 
   .card {
-    min-width: 240;
-    max-width: 240;
+    min-width: 240px;
+    max-width: 240px;
     margin: 'theme.spacing.unit';
   }
 
+  .findmovies {
+    color: 'theme.palette.primary.light';
+  }
   

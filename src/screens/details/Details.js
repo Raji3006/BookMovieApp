@@ -142,11 +142,7 @@ const Details = (props) => {
                                         root: movie.titleBar,
                                         title: movie.title,
                                     }}
-                                    actionIcon={
-                                        <IconButton>
-                                        <StarBorderIcon className={movie.title} />
-                                        </IconButton>
-                                    }
+                                    
                                     />
                                 </GridListTile>
                                 ))}
