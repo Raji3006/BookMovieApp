@@ -122,6 +122,7 @@ const Details = (props) => {
                     <div className='artists-style'>
                         <Typography className='font'>
                             Artists:
+
                         </Typography>
                     </div>
                     <div className='artist-grid-style'>
