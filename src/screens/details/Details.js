@@ -43,12 +43,12 @@ const Details = (props) => {
     }, [])
 
     return (
-        
+
         <div className="details">
 
-            <Header id={props.match.params.id} baseUrl={props.baseUrl} showBookShowButton/>
+            <Header id={props.match.params.id} baseUrl={props.baseUrl} showBookShowButton />
 
-           
+
             <Typography className="back">
                 <Link to="/"> &#60; Back to Home </Link>
             </Typography>
@@ -99,11 +99,13 @@ const Details = (props) => {
                     </Typography>
 
                     <div className='trailer-box'>
-                        <YouTube
-                            videoId={ movie.trailer_url.split("v=")[1].split("&")[0]}
-                            opts={opts}
-                            onReady={(e) => { onPlayerReady }}
-                        />
+                        {movie && movie.trailer_url && (
+                            <YouTube
+                                videoId={movie.trailer_url.split("v=")[1].split("&")[0]}
+                                opts={opts}
+                                onReady={(e) => { onPlayerReady }}
+                            />
+                        )}
                     </div>
                 </div>
 

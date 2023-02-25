@@ -47,6 +47,7 @@ function Home(props) {
   const [genres, setGenres] = useState([]);
   const [genresList, setGenresList] = useState([]);
   const [artists, setArtists] = useState([]);
+  const [artistsList, setArtistsList] = useState([]);
 
   {/* Make API Call to Fetch the data */ }
   useEffect(() => {
@@ -66,6 +67,17 @@ function Home(props) {
       if (setGenres.status === 200) {
         const genres = await setGenres.json();
         setGenresList(genres.genres);
+      }
+
+      const getArtists = fetch(`${baseUrl}artists`);
+
+      const [setArtists,] = await Promise.all([
+        getArtists,
+      ]);
+
+      if (setArtists.status === 200) {
+        const artists = await setArtists.json();
+        setArtistsList(artists.artists);
       }
     };
     setData();
@@ -108,78 +120,91 @@ function Home(props) {
         <div className="left">
           <ReleasedMovies />
         </div>
-      </div>
+        
+        {/* Right part to display the filter card */}
+        <div className="right">
+          <Card className="card">
+            <CardContent>
+              <FormControl className={classes.formControl}>
+                <Typography className={classes.title}>FIND MOVIES BY:</Typography>
+              </FormControl>
 
-      {/* Right part to display the filter card */}
-      <div className="right">
-        <Card className="card">
-          <CardContent>
-            <FormControl className={classes.formControl}>
-              <Typography className={classes.title}>FIND MOVIES BY:</Typography>
-            </FormControl>
+              {/* Movie Name */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="movieName">Movie Name</InputLabel>
+                <Input id="movieName" onChange={changeMovieHandler} />
+              </FormControl>
 
-            {/* Movie Name */}
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="movieName">Movie Name</InputLabel>
-              <Input id="movieName" onChange={changeMovieHandler} />
-            </FormControl>
+              {/* Genres */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="genres">Genres</InputLabel>
+                <Select multiple
+                  input={<Input id="genres" />}
+                  renderValue={(selected) => selected.join(",")}
+                  value={genres}
+                  onClick={selectGenresHandler}
+                >
+                  {genresList.map((genre) => (
+                    <MenuItem key={genre.id} value={genre.genre}>
+                      <Checkbox checked={genres.indexOf(genre.genre) > -1} />
+                      <ListItemText primary={genre.genre} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-            {/* Genres */}
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="genres">Genres</InputLabel>
-              <Select multiple input={<Input id="genres" />}
-                onClick={selectGenresHandler}
-              >
-                {genresList.map((genre) => (
-                  <MenuItem key={genre.id} value={genre.genre}>
-                    <Checkbox checked={genres.indexOf(genre.genre) > -1} />
-                    <ListItemText primary={genre.genre} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              {/* Artists */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="artists">Artists</InputLabel>
+                <Select multiple
+                  input={<Input id="artists" />}
+                  renderValue={(selected) => selected.join(",")}
+                  value={artists}
+                  onClick={selectArtistsHandler}
+                >
+                  {artistsList.map((artist) => (
+                    <MenuItem key={artist.id} value={artist.first_name + " " + artist.last_name}>
+                      <Checkbox checked={artists.indexOf(artist.first_name + " " + artist.last_name) > -1} />
+                      <ListItemText primary={artist.first_name + " " + artist.last_name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-            {/* Artists */}
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="artists">Artists</InputLabel>
-              <Select multiple input={<Input id="artists" />}
-                onClick={selectArtistsHandler}
-              ></Select>
-            </FormControl>
+              {/* Release Date Start */}
+              <FormControl className={classes.formControl}>
+                <TextField
+                  id="releaseDateStart"
+                  label="Release Date Start"
+                  type="date"
+                  defaultValue=""
+                  InputLabelProps={{ shrink: true }}
+                  onClick={releaseDateStartHandler}
+                />
+              </FormControl>
 
-            {/* Release Date Start */}
-            <FormControl className={classes.formControl}>
-              <TextField
-                id="releaseDateStart"
-                label="Release Date Start"
-                type="date"
-                defaultValue=""
-                InputLabelProps={{ shrink: true }}
-                onClick={releaseDateStartHandler}
-              />
-            </FormControl>
+              {/* Release Date End */}
+              <FormControl className={classes.formControl}>
+                <TextField
+                  id="releaseDateEnd"
+                  label="Release Date End"
+                  type="date"
+                  defaultValue=""
+                  InputLabelProps={{ shrink: true }}
+                  onClick={releaseDateEndHandler}
+                />
+              </FormControl>
 
-            {/* Release Date End */}
-            <FormControl className={classes.formControl}>
-              <TextField
-                id="releaseDateEnd"
-                label="Release Date End"
-                type="date"
-                defaultValue=""
-                InputLabelProps={{ shrink: true }}
-                onClick={releaseDateEndHandler}
-              />
-            </FormControl>
+              {/* Apply Button */}
+              <br />
+              <br />
+              <FormControl className={classes.formControl}>
+                <Button variant="contained" color="primary">APPLY</Button>
+              </FormControl>
 
-            {/* Apply Button */}
-            <br />
-            <br />
-            <FormControl className={classes.formControl}>
-              <Button variant="contained" color="primary">APPLY</Button>
-            </FormControl>
-
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
     </div>
