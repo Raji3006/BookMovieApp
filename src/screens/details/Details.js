@@ -1,7 +1,7 @@
-import { GridList, Typography, GridListTile, GridListTileBar } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import './Details.css';
 import Header from '../../common/header/Header';
+import { GridList, Typography, GridListTile, GridListTileBar } from '@material-ui/core';
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import YouTube from 'react-youtube';
 import { Link } from "react-router-dom";
@@ -12,14 +12,26 @@ const movieInitial = {
     artists: [],
 };
 
+const opts = {
+    height: '390',
+    width: '640',
+    playerVars: {
+        autoplay: 1,
+    },
+};
+
 const Details = (props) => {
 
     //Fetch data using API
     const [movie, setMovie] = useState(movieInitial);
     const [rating, setRating] = useState(0);
 
+    const onPlayerReady = (event) => {
+        event.target.pauseVideo();
+    }
+
     const fetchData = () => {
-        return fetch("http://localhost:8085/api/v1/movies")
+        return fetch(`${props.baseUrl}movies/${props.match.params.id}`)
             .then((response) => {
                 return response.json();
             })
@@ -30,33 +42,19 @@ const Details = (props) => {
         fetchData();
     }, [])
 
-    const opts = {
-        height: '390',
-        width: '640',
-        playerVars: {
-            autoplay: 1,
-        },
-    }
-
-    const onPlayerReady = (event) => {
-        event.target.pauseVideo();
-    }
-
-    let videoUrl = movie.trailer_url;
-    let videoId;
-    if (videoUrl) {
-        videoId = videoUrl.split("v=")[1].split("&")[0];
-    }
-
     return (
         
         <div className="details">
+
             <Header id={props.match.params.id} baseUrl={props.baseUrl} showBookShowButton/>
+
+           
             <Typography className="back">
                 <Link to="/"> &#60; Back to Home </Link>
             </Typography>
 
             <div className="parent">
+                {/* Movie poster */}
                 <div className="left">
                     <Typography>
                         <img
@@ -65,41 +63,52 @@ const Details = (props) => {
                         />
                     </Typography>
                 </div>
+
+                {/* Detailed information about the movie */}
                 <div className="middle">
+                    {/* Movie title here */}
                     <Typography variant="heading" component="h2">
                         {movie.title}
                     </Typography>
+                    {/* Movie genres here */}
                     <Typography className='font'>
                         Genre: {movie.genres}
                     </Typography>
+                    {/* Total duartion of movie */}
                     <Typography className='font'>
                         Duration: {movie.duration}
                     </Typography>
+                    {/* Release Date here */}
                     <Typography className='font'>
                         Released Date: {new Date(movie.release_date).toDateString()}
                     </Typography>
+                    {/* Rating for the movie here */}
                     <Typography className='font'>
                         Rating: {movie.rating}
                     </Typography><br />
+                    {/* Storyline of the movie here with link to wikipedia page of the movie */}
                     <Typography className='font'>
                         Plot: (
                         <a href={movie.wiki_url}>Wiki Link</a>
                         ) {movie.storyline}
                     </Typography>
 
+                    {/* Youtube trailer of the movie here  */}
                     <Typography className='font'>
                         Trailer: <br />
                     </Typography>
 
                     <div className='trailer-box'>
                         <YouTube
-                            videoId={videoId}
+                            videoId={ movie.trailer_url.split("v=")[1].split("&")[0]}
                             opts={opts}
                             onReady={(e) => { onPlayerReady }}
                         />
                     </div>
                 </div>
+
                 <div className="right">
+                    {/* Star rating component here */}
                     <Typography className='font'>
                         Rate this movie:
                     </Typography>
@@ -119,11 +128,10 @@ const Details = (props) => {
                             );
                         })}
                     </div>
-
+                    {/* Artist information here */}
                     <div className='artists-style'>
                         <Typography className='font'>
                             Artists:
-
                         </Typography>
                     </div>
                     <div className='artist-grid-style'>

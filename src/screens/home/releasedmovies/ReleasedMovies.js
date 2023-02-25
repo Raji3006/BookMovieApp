@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ReleasedMovies() {
+
   const classes = useStyles();
   const [movies, setMovies] = useState([]);
 
@@ -56,7 +57,7 @@ function ReleasedMovies() {
             )}
             <ImageListItemBar
               title={movie.title}
-              subtitle={`Released: ${movie.release_date}`}
+              subtitle={`Released: ${new Date(movie.release_date).toDateString()}`}
             />
           </ImageListItem>
         ))}
