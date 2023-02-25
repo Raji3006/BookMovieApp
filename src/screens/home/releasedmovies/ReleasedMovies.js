@@ -25,7 +25,7 @@ function ReleasedMovies() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8085/api/v1/movies?page=1&limit=10&status=released")
+    fetch("http://localhost:8085/api/v1/movies?status=released")
       .then((response) => response.json())
       .then((data) => setMovies(data.movies))
       .catch((error) => console.log(error));

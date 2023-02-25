@@ -49,8 +49,9 @@ const Details = (props) => {
     }
 
     return (
+        
         <div className="details">
-            <Header />
+            <Header id={props.match.params.id} baseUrl={props.baseUrl} showBookShowButton/>
             <Typography className="back">
                 <Link to="/"> &#60; Back to Home </Link>
             </Typography>
