@@ -1,30 +1,42 @@
-.header {
-    display: flex;
-    align-items: center;
-    background-color: #222;
-    height: 36px;
-    padding: 8px 32px 8px 16px;
+.app-header {
+  background-color: #222;
+  height: 36px;
+  padding: 8px 32px 8px 16px;
+}
+
+.login-button {
+  float: right;
+}
+
+.app-logo {
+  animation: app-logo-spin infinite 8s linear;
+  height: 35px;
+  background: #ff7f7f;
+}
+
+.bookshow-button {
+  float: right;
+  margin-right: 8px;
+}
+
+@keyframes app-logo-spin {
+  from {
+    transform: scaleX(-1);
   }
-  
-  .logo {
-    animation: rotate 8s linear infinite;
-    background-color: #ff7f7f;
-    height: 35px;
-    margin-right: 16px;
-  }
-  
-  .logo-image {
-    height: 100%;
-  }
-  
-  .login-button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    color: #333;
-    font-size: 14px;
-    font-weight: bold;
-    margin-left: auto;
-  }
-  
- 
+}
+
+.tabs {
+  margin-bottom: 20px;
+}
+
+.dispNone {
+  display: none;
+}
+
+.dispBlock {
+  display: block;
+}
+
+.red {
+  color: red;
+}

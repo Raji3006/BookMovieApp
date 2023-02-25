@@ -43,9 +43,12 @@ const Details = (props) => {
     }, [])
 
     return (
+        
         <div className="details">
-            <Header />
-            {/* Back to home button with link to home page */}
+
+            <Header id={props.match.params.id} baseUrl={props.baseUrl} showBookShowButton/>
+
+           
             <Typography className="back">
                 <Link to="/"> &#60; Back to Home </Link>
             </Typography>
