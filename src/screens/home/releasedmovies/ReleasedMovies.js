@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ImageList, ImageListItem, ImageListItemBar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+// import { releasedFilter } from "../Home";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,16 +10,20 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     width: "76vw", 
     margin: "16px",
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     overflow: 'hidden',
     width: "100%",
-    height: 350,
+    // height: 350,
     margin:"16px",
     transform: "translateZ(0)",
+    cursor: "pointer",
   },
   pointer: {
     cursor: "pointer",
+    margin: "15px",
   },
 }));
 
@@ -39,6 +44,7 @@ function ReleasedMovies() {
     window.location.href = `/movie/${movieId}`;
   };
 
+  //console.log("Movies from Home :" + releasedFilter);
 
   return (
     <div className={classes.root}>
@@ -66,7 +72,6 @@ function ReleasedMovies() {
           </ImageListItem>
         ))}
       </ImageList>
-     
     </div>
   );
 }

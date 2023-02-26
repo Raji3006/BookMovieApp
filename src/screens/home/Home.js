@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import Header from "../../common/header/Header";
 import "./Home.css";
 import UpcomingMovies from './upcomingmovies/UpcomingMovies';
-import ReleasedMovies from './releasedmovies/ReleasedMovies';
+import { ImageList, ImageListItem, ImageListItemBar } from "@material-ui/core";
 import {
   CardContent, Typography, Card, FormControl, withStyles, Input, Select, TextField,
   InputLabel, Button, MenuItem, Checkbox, ListItemText
 } from '@material-ui/core';
 
+
 const styles = (theme) => ({
   root: {
+    
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
@@ -36,7 +38,15 @@ const styles = (theme) => ({
   title: {
     color: theme.palette.primary.light,
   },
+  pointer: {
+    cursor: "pointer",
+    margin: "15px",
+  },
 });
+
+const handleMovieClick = (movieId) => {
+  window.location.href = `/movie/${movieId}`;
+};
 
 function Home(props) {
 
@@ -50,14 +60,15 @@ function Home(props) {
   const [artistsList, setArtistsList] = useState([]);
   const [releasedMovies, setReleasedMovies] = useState([]);
 
+  const [movies, setMovies] = useState([]);
+
   {/* Make API Call to Fetch the data */ }
   useEffect(() => {
     const setData = async () => {
 
-
-
       {/* API Call */ }
       const getGenres = fetch(`${baseUrl}genres`);
+      const releasedMoviesRequest = fetch(`${baseUrl}movies?status=RELEASED`);
 
       {/* Using Promise fetch data into setGenres */ }
       const [setGenresresult,] = await Promise.all([
@@ -71,13 +82,18 @@ function Home(props) {
 
       const getArtists = fetch(`${baseUrl}artists`);
 
-      const [setArtists,] = await Promise.all([
-        getArtists,
+      const [setArtists,releasedMoviesResponse] = await Promise.all([
+        getArtists,releasedMoviesRequest
       ]);
 
       if (setArtists.status === 200) {
         const artists = await setArtists.json();
         setArtistsList(artists.artists);
+      }
+
+      if (releasedMoviesResponse.status === 200) {
+        const releasedMovies = await releasedMoviesResponse.json();
+        setReleasedMovies(releasedMovies.movies);
       }
     };
     setData();
@@ -126,17 +142,32 @@ function Home(props) {
     }
 
     const response = await fetch(`${baseUrl}movies${encodeURI(queryString)}`);
+
+    // if(queryString == "?status=RELEASED"){
+    //   console.log("Only Released Movies : " + `${baseUrl}movies${encodeURI(queryString)}`);
+    // }
+    // else{
+    //   console.log("With Filters Applied : " + `${baseUrl}movies${encodeURI(queryString)}`);
+    // }
+
+    console.log("Query String : " + queryString);
     const data = await response.json();
     if (response.status === 200) {
       setReleasedMovies(data.movies);
     }
+    // const releasedFilter = data.movies;
+    // console.log("Released Filter : " + releasedFilter);
   };
+
+  
+
+  console.log("Released Movies :" + releasedMovies);
 
   return (
     <div>
       <Header {...props} />
 
-      {/* Top Middle part to display upcoming movies. */}
+      {/* Top Middle part to display upcoming releasedMovies. */}
       <div className="upcoming-movies-heading">
         <span>Upcoming Movies</span>
       </div>
@@ -147,13 +178,39 @@ function Home(props) {
       <div className="flex-container">
         {/* Left part to display all the release movies */}
         <div className="left">
-          <ReleasedMovies />
+          
+          {/* Released movies */}
+          <ImageList rowHeight={350} cols={4} className={classes.gridListMain}>
+          {releasedMovies.map((movie) => (
+              <ImageListItem
+                key={movie.id}
+                className={classes.pointer}
+                onClick={() => handleMovieClick(movie.id)}
+                // className="released-movie-grid-item"
+              >
+                {movie.poster_url ? (
+                  <img src={movie.poster_url} alt={movie.title} />
+                ) : (
+                  <img
+                    src="https://via.placeholder.com/150x225?text=No+Poster"
+                    alt={movie.title}
+                  />
+                )}
+                <ImageListItemBar
+                  title={movie.title}
+                  subtitle={`Released: ${new Date(
+                    movie.release_date
+                  ).toDateString()}`}
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
         </div>
         
         {/* Right part to display the filter card */}
         <div className="right">
           <Card className="card">
-            <CardContent>
+            <CardContent style={{padding:"0px"}}>
               <FormControl className={classes.formControl}>
                 <Typography className={classes.title}>FIND MOVIES BY:</Typography>
               </FormControl>

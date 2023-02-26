@@ -17,20 +17,24 @@
   }
   
   .right {
-    padding-top: 20px;
     width: 24%;
+    margin-top: 20px;
   }
 
   .left {
     width: 76%;
   }
 
+  .card {
+    margin-top: 20px;
+  }
+
   .flex-container {
     display: flex;
     flex-direction: row;
-   justify-content: space-between;
+    justify-content: space-between;
   }
-  
+
   .flex-container > div {
     margin: 16px;
   }
