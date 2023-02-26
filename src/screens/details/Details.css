@@ -4,6 +4,9 @@
 
 .parent {
     display: flex;
+}
+
+.parent > div {
     margin: 0px 16px;
 }
 
@@ -22,6 +25,7 @@
 
 .right {
     width: 20%; 
+    padding-top: 0px;
 }
 
 .rate-this-movie {
@@ -33,7 +37,7 @@
 }
 
 .artists-style {
-    margin: 16px 0 16px 0;
+    margin: 16px 0px 16px 0px;
 }
 
 .gridTile {
@@ -42,23 +46,5 @@
 
 input[type="radio"] {
     display: none;
-}
-
-.movie-poster {
-    display: inline-block;
-    width: 100%;
-    
-}
-
-.back-button-style {
-    margin: 24px 8px 24px 0px;
-}
-
-.back-button-style:hover {
-    cursor: pointer;
-}
-
-.trailer-box {
-    margin: 16px 0px 16px 0px !important;
 }
 

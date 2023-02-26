@@ -48,6 +48,7 @@ function Home(props) {
   const [genresList, setGenresList] = useState([]);
   const [artists, setArtists] = useState([]);
   const [artistsList, setArtistsList] = useState([]);
+  const [releasedMovies, setReleasedMovies] = useState([]);
 
   {/* Make API Call to Fetch the data */ }
   useEffect(() => {
@@ -59,13 +60,12 @@ function Home(props) {
       const getGenres = fetch(`${baseUrl}genres`);
 
       {/* Using Promise fetch data into setGenres */ }
-      const [setGenres,] = await Promise.all([
+      const [setGenresresult,] = await Promise.all([
         getGenres,
       ]);
-
       {/* Check whether API call was successfull and we received status as 200 */ }
-      if (setGenres.status === 200) {
-        const genres = await setGenres.json();
+      if (setGenresresult.status === 200) {
+        const genres = await setGenresresult.json();
         setGenresList(genres.genres);
       }
 
@@ -83,15 +83,19 @@ function Home(props) {
     setData();
   }, []);
 
+
   const changeMovieHandler = (event) => {
     setMovieName(event.target.value);
   }
 
   const selectGenresHandler = (event) => {
+    
+    if(event && event.target && event.target.value)
     setGenres(event.target.value);
   }
 
   const selectArtistsHandler = (event) => {
+    if(event && event.target && event.target.value)
     setArtists(event.target.value);
   }
 
@@ -102,6 +106,31 @@ function Home(props) {
   const releaseDateEndHandler = (event) => {
     setReleaseDateEnd(event.target.value);
   }
+
+  const filterApplyHandler = async () => {
+    let queryString = "?status=RELEASED";
+    if (movieName !== "") {
+      queryString += "&title=" + movieName;
+    }
+    if (genres.length > 0) {
+      queryString += "&genres=" + genres.toString();
+    }
+    if (artists.length > 0) {
+      queryString += "&artists=" + artists.toString();
+    }
+    if (releaseDateStart !== "") {
+      queryString += "&start_date=" + releaseDateStart;
+    }
+    if (releaseDateEnd !== "") {
+      queryString += "&end_date=" + releaseDateEnd;
+    }
+
+    const response = await fetch(`${baseUrl}movies${encodeURI(queryString)}`);
+    const data = await response.json();
+    if (response.status === 200) {
+      setReleasedMovies(data.movies);
+    }
+  };
 
   return (
     <div>
@@ -141,12 +170,12 @@ function Home(props) {
                 <Select multiple
                   input={<Input id="genres" />}
                   renderValue={(selected) => selected.join(",")}
-                  value={genres}
-                  onClick={selectGenresHandler}
+                  value={genres?genres:[]}
+                  onClick={selectGenresHandler} onBlur={selectGenresHandler}
                 >
                   {genresList.map((genre) => (
                     <MenuItem key={genre.id} value={genre.genre}>
-                      <Checkbox checked={genres.indexOf(genre.genre) > -1} />
+                      <Checkbox checked={genres && genres.indexOf(genre.genre) > -1} />
                       <ListItemText primary={genre.genre} />
                     </MenuItem>
                   ))}
@@ -159,12 +188,12 @@ function Home(props) {
                 <Select multiple
                   input={<Input id="artists" />}
                   renderValue={(selected) => selected.join(",")}
-                  value={artists}
-                  onClick={selectArtistsHandler}
+                  value={artists?artists:[]}
+                  onClick={selectArtistsHandler} onBlur = {selectArtistsHandler}
                 >
                   {artistsList.map((artist) => (
                     <MenuItem key={artist.id} value={artist.first_name + " " + artist.last_name}>
-                      <Checkbox checked={artists.indexOf(artist.first_name + " " + artist.last_name) > -1} />
+                      <Checkbox checked={artists && artists.indexOf(artist.first_name + " " + artist.last_name) > -1} />
                       <ListItemText primary={artist.first_name + " " + artist.last_name} />
                     </MenuItem>
                   ))}
@@ -199,7 +228,7 @@ function Home(props) {
               <br />
               <br />
               <FormControl className={classes.formControl}>
-                <Button variant="contained" color="primary">APPLY</Button>
+                <Button  onClick={filterApplyHandler} variant="contained" color="primary">APPLY</Button>
               </FormControl>
 
             </CardContent>
