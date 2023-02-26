@@ -13,8 +13,8 @@ const movieInitial = {
 };
 
 const opts = {
-    height: '390',
-    width: '640',
+    height: '300',
+    width: '750',
     playerVars: {
         autoplay: 1,
     },

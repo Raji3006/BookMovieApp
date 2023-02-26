@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: 350,
     margin:"16px",
+    transform: "translateZ(0)",
   },
   pointer: {
     cursor: "pointer",
@@ -27,7 +28,7 @@ function ReleasedMovies() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8085/api/v1/movies?status=released&limit=4")
+    fetch("http://localhost:8085/api/v1/movies?status=released")
       .then((response) => response.json())
       .then((data) => setMovies(data.movies))
       .catch((error) => console.log(error));
@@ -38,13 +39,11 @@ function ReleasedMovies() {
     window.location.href = `/movie/${movieId}`;
   };
 
-  const firstThreeMovies = movies.slice(0, 3);
-  const lastMovie = movies.slice(3, 4);
 
   return (
     <div className={classes.root}>
       <ImageList rowHeight={350} cols={4} className={classes.gridList}>
-      {firstThreeMovies.map((movie) => (
+      {movies.map((movie) => (
           <ImageListItem
             key={movie.id}
             className={classes.pointer}
@@ -67,30 +66,7 @@ function ReleasedMovies() {
           </ImageListItem>
         ))}
       </ImageList>
-      <ImageList rowHeight={350} cols={4} className={classes.gridList}>
-        {lastMovie.map((movie) => (
-          <ImageListItem
-            key={movie.id}
-            className={classes.pointer}
-            onClick={() => handleMovieClick(movie.id)}
-          >
-            {movie.poster_url ? (
-              <img src={movie.poster_url} alt={movie.title} />
-            ) : (
-              <img
-                src="https://via.placeholder.com/150x225?text=No+Poster"
-                alt={movie.title}
-              />
-            )}
-            <ImageListItemBar
-              title={movie.title}
-              subtitle={`Released: ${new Date(
-                movie.release_date
-              ).toDateString()}`}
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
+     
     </div>
   );
 }
