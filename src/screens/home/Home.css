@@ -18,7 +18,7 @@
   
   .right {
     width: 24%;
-    margin-top: 20px;
+    text-align: center;
   }
 
   .left {
@@ -26,7 +26,8 @@
   }
 
   .card {
-    margin-top: 20px;
+    margin-top: 10px;
+    height: 450px;
   }
 
   .flex-container {

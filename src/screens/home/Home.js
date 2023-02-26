@@ -60,21 +60,20 @@ function Home(props) {
   const [artistsList, setArtistsList] = useState([]);
   const [releasedMovies, setReleasedMovies] = useState([]);
 
-  const [movies, setMovies] = useState([]);
 
-  {/* Make API Call to Fetch the data */ }
+  /* Make API Call to Fetch the data */
   useEffect(() => {
     const setData = async () => {
 
-      {/* API Call */ }
+      /* API Call */
       const getGenres = fetch(`${baseUrl}genres`);
       const releasedMoviesRequest = fetch(`${baseUrl}movies?status=RELEASED`);
 
-      {/* Using Promise fetch data into setGenres */ }
+      /* Using Promise fetch data into setGenres */
       const [setGenresresult,] = await Promise.all([
         getGenres,
       ]);
-      {/* Check whether API call was successfull and we received status as 200 */ }
+      /* Check whether API call was successfull and we received status as 200 */
       if (setGenresresult.status === 200) {
         const genres = await setGenresresult.json();
         setGenresList(genres.genres);
@@ -105,7 +104,6 @@ function Home(props) {
   }
 
   const selectGenresHandler = (event) => {
-    
     if(event && event.target && event.target.value)
     setGenres(event.target.value);
   }
@@ -116,7 +114,7 @@ function Home(props) {
   }
 
   const releaseDateStartHandler = (event) => {
-    setReleaseDateEnd(event.target.value);
+    setReleaseDateStart(event.target.value);
   }
 
   const releaseDateEndHandler = (event) => {
@@ -143,31 +141,16 @@ function Home(props) {
 
     const response = await fetch(`${baseUrl}movies${encodeURI(queryString)}`);
 
-    // if(queryString == "?status=RELEASED"){
-    //   console.log("Only Released Movies : " + `${baseUrl}movies${encodeURI(queryString)}`);
-    // }
-    // else{
-    //   console.log("With Filters Applied : " + `${baseUrl}movies${encodeURI(queryString)}`);
-    // }
-
-    console.log("Query String : " + queryString);
     const data = await response.json();
     if (response.status === 200) {
       setReleasedMovies(data.movies);
     }
-    // const releasedFilter = data.movies;
-    // console.log("Released Filter : " + releasedFilter);
   };
-
-  
-
-  console.log("Released Movies :" + releasedMovies);
 
   return (
     <div>
       <Header {...props} />
 
-      {/* Top Middle part to display upcoming releasedMovies. */}
       <div className="upcoming-movies-heading">
         <span>Upcoming Movies</span>
       </div>
@@ -176,17 +159,13 @@ function Home(props) {
       </div>
 
       <div className="flex-container">
-        {/* Left part to display all the release movies */}
-        <div className="left">
-          
-          {/* Released movies */}
+        <div className="left" style={{width:"76%"}}>
           <ImageList rowHeight={350} cols={4} className={classes.gridListMain}>
           {releasedMovies.map((movie) => (
               <ImageListItem
                 key={movie.id}
                 className={classes.pointer}
                 onClick={() => handleMovieClick(movie.id)}
-                // className="released-movie-grid-item"
               >
                 {movie.poster_url ? (
                   <img src={movie.poster_url} alt={movie.title} />
@@ -207,21 +186,18 @@ function Home(props) {
           </ImageList>
         </div>
         
-        {/* Right part to display the filter card */}
-        <div className="right">
+        <div className="right" style={{width:"24%", height:"400px"}}>
           <Card className="card">
             <CardContent style={{padding:"0px"}}>
               <FormControl className={classes.formControl}>
-                <Typography className={classes.title}>FIND MOVIES BY:</Typography>
+                <Typography className={classes.title} style={{textAlign:"left"}}>FIND MOVIES BY:</Typography>
               </FormControl>
 
-              {/* Movie Name */}
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="movieName">Movie Name</InputLabel>
                 <Input id="movieName" onChange={changeMovieHandler} />
               </FormControl>
 
-              {/* Genres */}
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="genres">Genres</InputLabel>
                 <Select multiple
@@ -239,7 +215,6 @@ function Home(props) {
                 </Select>
               </FormControl>
 
-              {/* Artists */}
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="artists">Artists</InputLabel>
                 <Select multiple
@@ -257,7 +232,6 @@ function Home(props) {
                 </Select>
               </FormControl>
 
-              {/* Release Date Start */}
               <FormControl className={classes.formControl}>
                 <TextField
                   id="releaseDateStart"
@@ -265,11 +239,10 @@ function Home(props) {
                   type="date"
                   defaultValue=""
                   InputLabelProps={{ shrink: true }}
-                  onClick={releaseDateStartHandler}
+                  onChange={releaseDateStartHandler}
                 />
               </FormControl>
 
-              {/* Release Date End */}
               <FormControl className={classes.formControl}>
                 <TextField
                   id="releaseDateEnd"
@@ -277,11 +250,9 @@ function Home(props) {
                   type="date"
                   defaultValue=""
                   InputLabelProps={{ shrink: true }}
-                  onClick={releaseDateEndHandler}
+                  onChange={releaseDateEndHandler}
                 />
               </FormControl>
-
-              {/* Apply Button */}
               <br />
               <br />
               <FormControl className={classes.formControl}>

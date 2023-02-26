@@ -103,7 +103,7 @@ const Details = (props) => {
                             <YouTube
                                 videoId={movie.trailer_url.split("v=")[1].split("&")[0]}
                                 opts={opts}
-                                onReady={(e) => { onPlayerReady }}
+                                onReady= { onPlayerReady }
                             />
                         )}
                     </div>
